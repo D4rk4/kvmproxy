@@ -5,7 +5,6 @@ ENV DISPLAY=:99
 
 # Установка необходимых пакетов
 RUN apt-get update && apt-get install -y \
-    xvfb \
     xauth \
     fluxbox \
     supervisor \
@@ -29,7 +28,7 @@ RUN mkdir -p /app /var/log/supervisor /etc/supervisor/conf.d /etc/nginx/auth
 
 # Создание пароля VNC для KasmVNC (требуется для работы)
 RUN mkdir -p /home/appuser/.vnc \
-    && echo "appuser\nappuser\n" | vncpasswd -u appuser -o /home/appuser/.vnc/passwd \
+    && echo "appuser\nappuser\n" | kasmvncpasswd -u appuser -o /home/appuser/.vnc/passwd \
     && chmod 600 /home/appuser/.vnc/passwd \
     && chown -R appuser:appuser /home/appuser/.vnc
 
