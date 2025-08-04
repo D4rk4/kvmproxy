@@ -63,12 +63,12 @@ RUN chown -R appuser:appuser /home/appuser
 EXPOSE 80 6901
 
 # Переменные окружения по умолчанию
-ENV WEB_USERNAME=admin
-ENV WEB_PASSWORD=secure123
-ENV KVM_USERNAME=Admin
-ENV KVM_PASSWORD=""
-ENV KVM_HOSTNAME=""
-ENV KVM_TITLE="Avocent KVM Console"
+ENV WEB_USERNAME=admin \
+    WEB_PASSWORD=secure123 \
+    KVM_USERNAME=Admin \
+    KVM_PASSWORD= \
+    KVM_HOSTNAME= \
+    KVM_TITLE="Avocent KVM Console"
 
 # Команда запуска
 ENTRYPOINT ["/entrypoint.sh"]
