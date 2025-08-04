@@ -1,0 +1,41 @@
+services:
+  avocent-kvm-kasmvnc:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: avocent-kvm-kasmvnc
+    hostname: avocent-kvm
+    ports:
+      - "8080:80"    # Веб-интерфейс с basic auth
+#      - "6901:6901"  # Прямой KasmVNC доступ (опционально)
+    environment:
+      # Параметры для KVM Console Viewer
+      - KVM_HOSTNAME=10.0.9.111  # IP адрес KVM устройства
+      - KVM_USERNAME=Admin          # Пользователь (по умолчанию Admin)
+      - KVM_PASSWORD=               # Пароль (по умолчанию пустой)
+      - KVM_TITLE=Avocent KVM       # Заголовок окна
+      # Параметры Basic Auth для веб-доступа
+      - WEB_USERNAME=admin
+      - WEB_PASSWORD=secure123
+      # KasmVNC настройки
+      - VNC_RESOLUTION=1920x1080    # Разрешение экрана
+    volumes:
+      - ./logs:/var/log/supervisor
+    restart: unless-stopped
+    networks:
+      - kvm-network
+    # Безопасность
+    security_opt:
+      - no-new-privileges:true
+    # Ограничения ресурсов (KasmVNC требует больше ресурсов)
+    mem_limit: 2g
+    cpus: 2.0
+    # Для лучшей производительности
+    shm_size: 1g
+
+networks:
+  kvm-network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.20.0.0/16
