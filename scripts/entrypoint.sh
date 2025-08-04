@@ -14,7 +14,7 @@ else
     htpasswd -bc /etc/nginx/auth/.htpasswd "admin" "secure123"
 fi
 
-# Создание директорий для xvfb
+# Создание директорий для Xvnc
 mkdir -p /tmp/.X11-unix
 chown root:root /tmp/.X11-unix
 chmod 1777 /tmp/.X11-unix
@@ -22,6 +22,14 @@ chmod 1777 /tmp/.X11-unix
 # Создание и настройка VNC директории
 mkdir -p /home/appuser/.vnc
 chown -R appuser:appuser /home/appuser/.vnc
+
+# Настройка запуска fluxbox через xstartup
+cat > /home/appuser/.vnc/xstartup << 'EOF'
+#!/bin/sh
+exec fluxbox
+EOF
+chmod +x /home/appuser/.vnc/xstartup
+chown appuser:appuser /home/appuser/.vnc/xstartup
 
 # Создание и настройка Xauthority
 touch /home/appuser/.Xauthority
