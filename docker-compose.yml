@@ -1,38 +1,27 @@
 services:
-  avocent-kvm-kasmvnc:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    container_name: avocent-kvm-kasmvnc
-    hostname: avocent-kvm
+  avocent-kvm:
+    build: .
+    image: avocent-kvm:latest
+    container_name: avocent-kvm
     ports:
-      - "8080:8080"    # Веб-интерфейс с basic auth
+      - "8080:3000"
     environment:
-      # Параметры для KVM Console Viewer
-      - KVM_HOSTNAME=10.0.9.111  # IP адрес KVM устройства
-      - KVM_USERNAME=Admin          # Пользователь (по умолчанию Admin)
-      - KVM_PASSWORD=               # Пароль (по умолчанию пустой)
-      - KVM_TITLE=Avocent KVM       # Заголовок окна
-      # Параметры Basic Auth для веб-доступа
-      - WEB_USERNAME=admin
-      - WEB_PASSWORD=secure123
-    volumes:
-      - ./logs:/var/log/supervisor
+      - DISABLE_IPV6=true
+      - LC_ALL=en_US.UTF-8
+      - KASM_SVC_AUDIO=0
+      - KASM_SVC_AUDIO_INPUT=0
+      - KASM_SVC_UPLOADS=0
+      - KASM_SVC_GAMEPAD=0
+      # Basic auth & page cosmetics (baseimage variables)
+      - CUSTOM_USER=admin
+      - PASSWORD=secure123
+      - TITLE=KVM-9111
+      # Variables consumed by the start-avocent.sh wrapper
+      - KVM_HOSTNAME=10.0.9.111
+      - KVM_USERNAME=Admin
+      - KVM_PASSWORD=
+      - KVM_TITLE=Avocent KVM
     restart: unless-stopped
-    networks:
-      - kvm-network
-    # Безопасность
-    security_opt:
-      - no-new-privileges:true
-    # Ограничения ресурсов (KasmVNC требует больше ресурсов)
-    mem_limit: 2g
-    cpus: 2.0
-    # Для лучшей производительности
-    shm_size: 1g
-
-networks:
-  kvm-network:
-    driver: bridge
-    ipam:
-      config:
-        - subnet: 172.20.0.0/16
+    shm_size: 1g                # KasmVNC recommendation
+    tmpfs:
+      - /config:rw,size=128m

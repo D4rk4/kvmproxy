@@ -1,0 +1,28 @@
+network:
+  ssl:
+     pem_certificate: ${HOME}/.vnc/self.pem
+     pem_key: ${HOME}/.vnc/self.pem
+  udp:
+     public_ip: 127.0.0.1
+user_session:
+    session_type: exclusive
+runtime_configuration:
+  allow_client_to_override_kasm_server_settings: false
+  allow_override_standard_vnc_server_settings: false
+data_loss_prevention:
+  visible_region:
+    # top: 10
+    # left: 10
+    # right: -40
+    # bottom: -40
+    concealed_region:
+      allow_click_down: false
+      allow_click_release: false
+  clipboard:
+    server_to_client:
+      enabled: false
+      primary_clipboard_enabled: false
+    client_to_server:
+      enabled: false
+  logging:
+    level: off
