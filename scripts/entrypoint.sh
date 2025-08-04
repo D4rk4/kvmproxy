@@ -1,10 +1,10 @@
 #!/bin/bash
-set -e
+set -euo pipefail
 
 echo "=== Avocent KVM Console Container Starting (KasmVNC) ==="
 
 # Создание htpasswd файла из переменных окружения
-if [ ! -z "$WEB_USERNAME" ] && [ ! -z "$WEB_PASSWORD" ]; then
+if [[ -n "$WEB_USERNAME" && -n "$WEB_PASSWORD" ]]; then
     echo "Creating htpasswd file for user: $WEB_USERNAME"
     htpasswd -bc /etc/nginx/auth/.htpasswd "$WEB_USERNAME" "$WEB_PASSWORD"
 else
