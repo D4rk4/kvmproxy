@@ -18,7 +18,7 @@ services:
       - WEB_USERNAME=admin
       - WEB_PASSWORD=secure123
       # KasmVNC настройки
-      - VNC_RESOLUTION=1920x1080    # Разрешение экрана
+      - VNC_RESOLUTION=1280x1024    # Разрешение экрана (макс. для SVIP1020)
     volumes:
       - ./logs:/var/log/supervisor
     restart: unless-stopped
