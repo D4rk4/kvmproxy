@@ -12,23 +12,6 @@ else
     htpasswd -bc /etc/nginx/auth/.htpasswd "admin" "secure123"
 fi
 
-# Настройка VNC разрешения
-# Максимальное разрешение для Avocent SVIP1020 составляет 1280x1024,
-# поэтому при превышении этих значений разрешение принудительно
-# ограничивается указанным максимумом.
-MAX_WIDTH=1280
-MAX_HEIGHT=1024
-VNC_RESOLUTION=${VNC_RESOLUTION:-"1280x1024"}
-
-REQ_WIDTH=$(echo "$VNC_RESOLUTION" | cut -d'x' -f1)
-REQ_HEIGHT=$(echo "$VNC_RESOLUTION" | cut -d'x' -f2)
-if [ "$REQ_WIDTH" -gt "$MAX_WIDTH" ] || [ "$REQ_HEIGHT" -gt "$MAX_HEIGHT" ]; then
-    echo "Requested resolution $VNC_RESOLUTION exceeds maximum ${MAX_WIDTH}x${MAX_HEIGHT}. Using ${MAX_WIDTH}x${MAX_HEIGHT}."
-    VNC_RESOLUTION="${MAX_WIDTH}x${MAX_HEIGHT}"
-fi
-
-export VNC_RESOLUTION
-echo "Setting VNC resolution to: $VNC_RESOLUTION"
 
 # Создание и настройка VNC директории
 mkdir -p /home/appuser/.vnc
@@ -38,8 +21,8 @@ chown -R appuser:appuser /home/appuser/.vnc
 cat > /home/appuser/.vnc/kasmvnc.yaml << EOF
 desktop:
   resolution:
-    width: $(echo $VNC_RESOLUTION | cut -d'x' -f1)
-    height: $(echo $VNC_RESOLUTION | cut -d'x' -f2)
+    width: 1280
+    height: 1024
 network:
   websocket_port: 6901
   ssl:
