@@ -69,7 +69,9 @@ ENV KVM_USERNAME=Admin
 ENV KVM_PASSWORD=""
 ENV KVM_HOSTNAME=""
 ENV KVM_TITLE="Avocent KVM Console"
-ENV VNC_RESOLUTION=1920x1080
+# Максимальное доступное разрешение для удаленных пользователей Avocent SVIP1020
+# ограничено 1280x1024, поэтому используем его в качестве значения по умолчанию.
+ENV VNC_RESOLUTION=1280x1024
 
 # Команда запуска
 ENTRYPOINT ["/entrypoint.sh"]
