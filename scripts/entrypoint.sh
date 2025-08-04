@@ -1,5 +1,7 @@
 #!/bin/bash
 set -euo pipefail
+export DISPLAY=:99
+
 
 echo "=== Avocent KVM Console Container Starting (KasmVNC) ==="
 
@@ -21,6 +23,14 @@ chmod 1777 /tmp/.X11-unix
 mkdir -p /home/appuser/.vnc
 chown -R appuser:appuser /home/appuser/.vnc
 
+# Создание и настройка Xauthority
+touch /home/appuser/.Xauthority
+chown appuser:appuser /home/appuser/.Xauthority
+export XAUTHORITY=/home/appuser/.Xauthority
+#xauth generate "$DISPLAY" . trusted
+#xauth add "$(hostname)/unix:$DISPLAY" . "$(xauth list "$DISPLAY" | awk '{print $3}')"
+
+
 # Создание конфигурации KasmVNC
 cat > /home/appuser/.vnc/kasmvnc.yaml << EOF
 desktop:
@@ -31,16 +41,11 @@ network:
   websocket_port: 6901
   ssl:
     require_ssl: false
-  interface: 0.0.0.0
+  interface: 127.0.0.1
 logging:
-  level: 30
+  level: 10
 encoding:
-  max_frame_rate: 60
-  rect_encoding_mode: 0
-  webp_image_quality: 80
-  jpeg_image_quality: 80
-security:
-  authentication: none
+  max_frame_rate: 30
 EOF
 
 # Настройка прав доступа

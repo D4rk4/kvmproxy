@@ -6,8 +6,7 @@ services:
     container_name: avocent-kvm-kasmvnc
     hostname: avocent-kvm
     ports:
-      - "8080:80"    # Веб-интерфейс с basic auth
-#      - "6901:6901"  # Прямой KasmVNC доступ (опционально)
+      - "8080:8080"    # Веб-интерфейс с basic auth
     environment:
       # Параметры для KVM Console Viewer
       - KVM_HOSTNAME=10.0.9.111  # IP адрес KVM устройства
