@@ -39,7 +39,7 @@ RUN wget -O /tmp/kasmvnc.deb https://github.com/kasmtech/KasmVNC/releases/downlo
 
 # Создание пароля VNC для KasmVNC (требуется для работы)
 RUN mkdir -p /home/appuser/.vnc \
-    && echo "password" | vncpasswd -f > /home/appuser/.vnc/passwd \
+    && echo -e "password\npassword\n" | vncpasswd /home/appuser/.vnc/passwd \
     && chmod 600 /home/appuser/.vnc/passwd \
     && chown -R appuser:appuser /home/appuser/.vnc
 
