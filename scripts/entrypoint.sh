@@ -12,6 +12,10 @@ else
     htpasswd -bc /etc/nginx/auth/.htpasswd "admin" "secure123"
 fi
 
+# Создание директорий для xvfb
+mkdir -p /tmp/.X11-unix
+chown root:root /tmp/.X11-unix
+chmod 1777 /tmp/.X11-unix
 
 # Создание и настройка VNC директории
 mkdir -p /home/appuser/.vnc
