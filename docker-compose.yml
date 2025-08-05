@@ -25,3 +25,5 @@ services:
     shm_size: 1g                # KasmVNC recommendation
     tmpfs:
       - /config:rw,size=128m
+    volumes:
+      - ./config.json:/usr/share/nginx/html/kasmvnc/config.json:ro
