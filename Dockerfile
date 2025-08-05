@@ -26,5 +26,5 @@ RUN printf '%s\n' \
  && chmod +x /usr/bin/avocent \
  && echo "avocent" > /defaults/startwm.sh && chmod +x /defaults/startwm.sh
 
- # Copy KasmVNC configuration
- #COPY kasmvnc.yaml /etc/kasmvnc/kasmvnc.yaml
+ # Copy KasmWeb configuration
+ COPY config.json /usr/share/nginx/html/kasmvnc/config.json
